@@ -96,13 +96,15 @@ class RandomList:
         Returns a random item from self.contents
     get_random_and_remove():
         Returns a random item from self.contents and decreases its probability by 1
+    reset_contents():
+        Returns contents to their original state
 
     '''
 
     def __init__(self, input_list: t.List[t.Any]):
         self.contents = format_list(input_list)
         self._offset_contents = format_list_probabilities(self.contents)
-        self.original_contents = deepcopy_list(self.contents)
+        self._original_contents = deepcopy_list(self.contents)
 
     def _get_item_index(self, input_item: t.Any):
         for item in self.contents:
@@ -138,3 +140,11 @@ class RandomList:
         random_item = get_from_list(target_probability, self._offset_contents)["item"]
         self._adjust_probability(random_item, -1)
         return random_item
+
+    def reset_contents(self):
+        '''
+        Returns contents to their original state, resetting all probability values
+        and replacing any removed items
+        '''
+        self.contents = self._original_contents
+        self._offset_contents = format_list_probabilities(self.contents)

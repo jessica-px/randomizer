@@ -95,3 +95,9 @@ def test_class_get_random_and_remove():
         random_item in possible_items and
         len(random_list.contents) == 2
     )
+
+def test_class_reset_contents():
+    random_list = RandomList(input_list)
+    random_list.get_random_and_remove()
+    random_list.reset_contents()
+    assert random_list.contents == format_list(input_list)

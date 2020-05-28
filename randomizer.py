@@ -5,6 +5,7 @@ the helper functions it uses
 
 import typing as t
 import random
+from copy import deepcopy
 
 # ------------------------------------------------- #
 #                        Helpers                    #
@@ -55,6 +56,17 @@ def get_from_list(target: int, input_list: t.List[t.Dict]) -> t.Dict:
             return item
     raise IndexError(f'Nothing found in list matching probability value of {target}.')
 
+
+def deepcopy_list(input_list: t.List[t.Dict]) -> t.List[t.Dict]:
+    '''
+    Returns a deepcopy of a list of dictionaries
+    '''
+    new_list = []
+    for dict_item in input_list:
+        new_dict = deepcopy(dict_item)
+        new_list.append(new_dict)
+    return new_list
+
 # ------------------------------------------------- #
 #                        Class                      #
 # ------------------------------------------------- #
@@ -90,6 +102,7 @@ class RandomList:
     def __init__(self, input_list: t.List[t.Any]):
         self.contents = format_list(input_list)
         self._offset_contents = format_list_probabilities(self.contents)
+        self.original_contents = deepcopy_list(self.contents)
 
     def _get_item_index(self, input_item: t.Any):
         for item in self.contents:

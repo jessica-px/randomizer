@@ -1,4 +1,4 @@
-from randomizer import format_list, format_list_probabilities, get_from_list, RandomList
+from randomizer import format_list, format_list_probabilities, get_from_list, RandomList, deepcopy_list
 
 # ------------------------------------------------- #
 #                     Helper Tests                  #
@@ -38,6 +38,15 @@ def test_get_from_list():
     ]
     assert get_from_list(3, test_list) == {"item": "vanilla", "probability": 3}
 
+def test_deepcopy_list():
+    test_list = [
+        {"item": "strawberry", "probability": 2},
+        {"item": "vanilla", "probability": 3},
+        {"item": "chocolate", "probability": 4}
+    ]
+    new_list = deepcopy_list(test_list)
+    test_list[0] = {"item": "strawberry", "probability": 100}
+    assert new_list[0]["probability"] != test_list[0]["probability"]
 
 # ------------------------------------------------- #
 #                    Class Tests                    #

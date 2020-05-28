@@ -1,17 +1,24 @@
+"""
+This file contains the main logic for the RandomList class and
+the helper functions it uses
+"""
+
 import typing as t
 import random
-
 
 # ------------------------------------------------- #
 #                        Helpers                    #
 # ------------------------------------------------- #
 
-# Given a list, for each item, adds a "probability" of 1 if key isn't present
-# then sorts list by probability value
+
 def format_list(input_list: t.List[t.Any]) -> t.List[t.Dict]:
+    '''
+    Given a list, for each item, adds a "probability" of 1 if key isn't present,
+    then sorts list by probability value
+    '''
     formatted_list = []
     for item in input_list:
-        if type(item) is dict and "probability" in item:
+        if isinstance(item, dict) and "probability" in item and "item" in item:
             formatted_list.append(item)
         else:
             new_item = {
@@ -22,10 +29,12 @@ def format_list(input_list: t.List[t.Any]) -> t.List[t.Dict]:
     return sorted(formatted_list, key=lambda k: k['probability'], reverse=True)
 
 
-# Given a formatted list, formats it (again) so the probabilities are cumulatively weighed
-# Ex: Given items with probabilties of 10 and 20, it will return items
-# with probabilities of 10 and 30 (10+20).
 def format_list_probabilities(input_list: t.List[t.Dict]) -> t.List[t.Dict]:
+    '''
+    Given a formatted list, formats it (again) so the probabilities are cumulatively weighed
+    Ex: Given items with probabilties of 10 and 20, it will return items
+    with probabilities of 10 and 30 (10+20).
+    '''
     cumulative_probability = 0
     new_list = []
     for item in input_list:
@@ -35,9 +44,12 @@ def format_list_probabilities(input_list: t.List[t.Dict]) -> t.List[t.Dict]:
         new_list.append(new_item)
     return new_list
 
-# Given a "target", returns the first item in formatted list with a greater probability
-# Ex: Item A has a probability of 20 and Item B has 50. Our target is 32, so we return Item B.
+
 def get_from_list(target: int, input_list: t.List[t.Dict]) -> t.Dict:
+    '''
+    Given a "target", returns the first item in formatted list with a greater probability
+    Ex: Item A has a probability of 20 and Item B has 50. Our target is 32, so we return Item B.
+    '''
     for item in input_list:
         if target <= item["probability"]:
             return item
@@ -47,10 +59,37 @@ def get_from_list(target: int, input_list: t.List[t.Dict]) -> t.Dict:
 #                        Class                      #
 # ------------------------------------------------- #
 
+
 class RandomList:
-    def __init__(self, contents: t.List[t.Any]):
-        self.contents = format_list(contents)
-        self.offset_contents = format_list_probabilities(self.contents)
+    '''
+    A class for getting random results from a list.
+
+    Items in this list can either given in the following format:
+        {
+            "item": (the actual thing you want),
+            "probability": (an int representing the comparative probability)
+        }
+
+    If given in any other format, items will be auto-formatted and provided
+    a probability of 1.
+
+    Public Attributes
+    ----------
+    contents : List[t.Dict]
+        A list of items, with weighted probabilities (defaults to 1)
+
+    Public Methods
+    -------
+    get_random():
+        Returns a random item from self.contents
+    get_random_and_remove():
+        Returns a random item from self.contents and decreases its probability by 1
+
+    '''
+
+    def __init__(self, input_list: t.List[t.Any]):
+        self.contents = format_list(input_list)
+        self._offset_contents = format_list_probabilities(self.contents)
 
     def _get_item_index(self, input_item: t.Any):
         for item in self.contents:
@@ -64,18 +103,25 @@ class RandomList:
         # Remove from list if prob becomes 0
         if self.contents[target_index]["probability"] <= 0:
             del self.contents[target_index]
-        self.offset_contents = format_list_probabilities(self.contents)
+        self._offset_contents = format_list_probabilities(self.contents)
 
     def _get_random_probability(self):
-        max = self.offset_contents[-1]["probability"]
-        return random.randint(1, max)
+        range_max = self._offset_contents[-1]["probability"]
+        return random.randint(1, range_max)
 
     def get_random(self):
+        '''
+        Returns a random item from self.contents
+        '''
         target_probability = self._get_random_probability()
-        return get_from_list(target_probability, self.offset_contents)["item"]
+        return get_from_list(target_probability, self._offset_contents)["item"]
 
     def get_random_and_remove(self):
+        '''
+        Returns a random item from self.contents and decreases its probability by 1
+        If its probability reaches 0, it is removed from the list
+        '''
         target_probability = self._get_random_probability()
-        random_item = get_from_list(target_probability, self.offset_contents)["item"]
+        random_item = get_from_list(target_probability, self._offset_contents)["item"]
         self._adjust_probability(random_item, -1)
         return random_item

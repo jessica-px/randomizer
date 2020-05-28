@@ -56,7 +56,7 @@ def test_class_construction():
         {"item": "vanilla", "probability": 3},
         {"item": "chocolate", "probability": 4}
     ]
-    assert random_list.offset_contents == offset_list
+    assert random_list._offset_contents == offset_list
 
 def test_class_adjust_probability():
     random_list = RandomList(input_list)
@@ -67,13 +67,16 @@ def test_class_adjust_probability():
         {"item": "strawberry", "probability": 1},
         {"item": "chocolate", "probability": 5}
     ]
-    assert random_list.offset_contents == adjusted_list
+    assert random_list._offset_contents == adjusted_list
 
 def test_class_get_random():
     random_list = RandomList(input_list)
     random_item = random_list.get_random()
     possible_items = ["strawberry", "vanilla", "chocolate"]
-    assert (random_item in possible_items)
+    assert (
+        random_item in possible_items and
+        len(random_list.contents) == 3
+    )
 
 def test_class_get_random_and_remove():
     random_list = RandomList(input_list)

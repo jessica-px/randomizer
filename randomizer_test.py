@@ -1,0 +1,85 @@
+from randomizer import format_list, format_list_probabilities, get_from_list, RandomList
+
+# ------------------------------------------------- #
+#                     Helper Tests                  #
+# ------------------------------------------------- #
+
+def test_format_list():
+    test_list = [
+        "vanilla",
+        "chocolate",
+        {"item": "strawberry", "probability": 2}
+    ]
+    formatted_test_list = [
+        {"item": "strawberry", "probability": 2},
+        {"item": "vanilla", "probability": 1},
+        {"item": "chocolate", "probability": 1}
+    ]
+    assert format_list(test_list) == formatted_test_list
+
+def test_format_list_probabilities():
+    test_list = [
+        {"item": "strawberry", "probability": 2},
+        {"item": "vanilla", "probability": 1},
+        {"item": "chocolate", "probability": 1}
+    ]
+    formatted_test_list = [
+        {"item": "strawberry", "probability": 2},
+        {"item": "vanilla", "probability": 3},
+        {"item": "chocolate", "probability": 4}
+    ]
+    assert format_list_probabilities(test_list) == formatted_test_list
+
+def test_get_from_list():
+    test_list = [
+        {"item": "strawberry", "probability": 2},
+        {"item": "vanilla", "probability": 3},
+        {"item": "chocolate", "probability": 4}
+    ]
+    assert get_from_list(3, test_list) == {"item": "vanilla", "probability": 3}
+
+
+# ------------------------------------------------- #
+#                    Class Tests                    #
+# ------------------------------------------------- #
+
+input_list = [
+    "vanilla",
+    "chocolate",
+    {"item": "strawberry", "probability": 2}
+]
+
+def test_class_construction():
+    random_list = RandomList(input_list)
+    offset_list = [
+        {"item": "strawberry", "probability": 2},
+        {"item": "vanilla", "probability": 3},
+        {"item": "chocolate", "probability": 4}
+    ]
+    assert random_list.offset_contents == offset_list
+
+def test_class_adjust_probability():
+    random_list = RandomList(input_list)
+    random_list._adjust_probability("strawberry", -1)
+    random_list._adjust_probability("vanilla", -1)
+    random_list._adjust_probability("chocolate", 3)
+    adjusted_list = [
+        {"item": "strawberry", "probability": 1},
+        {"item": "chocolate", "probability": 5}
+    ]
+    assert random_list.offset_contents == adjusted_list
+
+def test_class_get_random():
+    random_list = RandomList(input_list)
+    random_item = random_list.get_random()
+    possible_items = ["strawberry", "vanilla", "chocolate"]
+    assert (random_item in possible_items)
+
+def test_class_get_random_and_remove():
+    random_list = RandomList(input_list)
+    random_item = random_list.get_random_and_remove()
+    possible_items = ["strawberry", "vanilla", "chocolate"]
+    assert (
+        random_item in possible_items and
+        len(random_list.contents) == 2
+    )

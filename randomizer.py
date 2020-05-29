@@ -128,6 +128,8 @@ class RandomList:
         '''
         Returns a random item from self.contents
         '''
+        if len(self.contents) == 0:
+            raise IndexError(f'RandomList is empty!')
         target_probability = self._get_random_probability()
         return get_from_list(target_probability, self._offset_contents)["item"]
 
@@ -136,6 +138,8 @@ class RandomList:
         Returns a random item from self.contents and decreases its probability by 1
         If its probability reaches 0, it is removed from the list
         '''
+        if len(self.contents) == 0:
+            raise IndexError(f'RandomList is empty!')
         target_probability = self._get_random_probability()
         random_item = get_from_list(target_probability, self._offset_contents)["item"]
         self._adjust_probability(random_item, -1)

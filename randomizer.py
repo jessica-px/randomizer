@@ -158,3 +158,46 @@ class RandomList:
     def get_all_items(self):
         return [item["item"] for item in self.contents]
 
+class RandomGroup:
+    '''
+    Very much like a RandomList, except it's a collection of RandomLists. They can
+    be given comparative probabilities like follows:
+
+        {
+            "item": (your RandomList),
+            "probability": (an int representing the comparative probability)
+        }
+
+    Otherwise the RandomLists will be auto-formatted and each given a probability of 1.
+
+    Public Attributes
+    ----------
+    lists : List[t.Dict]
+        A list of RandomLists, with weighted probabilities (defaults to 1)
+
+    Public Methods
+    -------
+    get_random():
+        Randomly selects a RandomList from self.lists, then returns a random item from that list
+
+    '''
+
+    def __init__(self, input_lists: t.List[t.Type[RandomList]]):
+        self.lists = format_list(input_lists)
+        self._offset_lists = format_list_probabilities(self.lists)
+        self._original_lists = deepcopy_list(self.lists)
+
+    def _get_random_probability(self):
+        range_max = self._offset_lists[-1]["probability"]
+        return random.randint(1, range_max)
+
+    def get_random(self):
+        '''
+        Selects a RandomList from self.lists, then returns a random item from its contents
+        by calling the RandomList's own get_random() method
+        '''
+        if len(self.lists) == 0:
+            raise IndexError('RandomGroup is empty!')
+        target_probability = self._get_random_probability()
+        random_list = get_from_list(target_probability, self._offset_lists)["item"]
+        return random_list.get_random()

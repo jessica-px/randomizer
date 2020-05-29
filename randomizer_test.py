@@ -1,4 +1,11 @@
-from randomizer import format_list, format_list_probabilities, get_from_list, RandomList, deepcopy_list
+from randomizer import (
+    format_list,
+    format_list_probabilities,
+    get_from_list,
+    deepcopy_list,
+    RandomList,
+    RandomGroup,
+)
 
 # ------------------------------------------------- #
 #                     Helper Tests                  #
@@ -106,3 +113,15 @@ def test_class_get_all_items():
     meat_list = RandomList(["beef", "pork", "chicken"])
     assert meat_list.get_all_items() == ["beef", "pork", "chicken"]
 
+# ------------------------------------------------- #
+#                 RandomGroup Tests                 #
+# ------------------------------------------------- #
+
+def test_group_construction():
+    meat_list = RandomList(["beef", "pork", "chicken"])
+    veggie_list = RandomList(["carrot", "lettuce", "celery"])
+
+    random_group = RandomGroup([meat_list, veggie_list])
+    random_item = random_group.get_random()
+
+    assert random_item in meat_list.get_all_items() or random_item in veggie_list.get_all_items()

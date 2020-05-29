@@ -102,7 +102,7 @@ class RandomList:
     '''
 
     def __init__(self, input_list: t.List[t.Any]):
-        self.contents = format_list(input_list)
+        self.contents = format_list(deepcopy_list(input_list))
         self._offset_contents = format_list_probabilities(self.contents)
         self._original_contents = deepcopy_list(self.contents)
 

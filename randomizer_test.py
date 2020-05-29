@@ -88,7 +88,7 @@ def test_class_get_random():
     )
 
 def test_class_get_random_and_remove():
-    random_list = RandomList(input_list)
+    random_list = RandomList(["strawberry", "vanilla", "chocolate"])
     random_item = random_list.get_random_and_remove()
     possible_items = ["strawberry", "vanilla", "chocolate"]
     assert (

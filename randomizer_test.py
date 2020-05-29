@@ -101,3 +101,8 @@ def test_class_reset_contents():
     random_list.get_random_and_remove()
     random_list.reset_contents()
     assert random_list.contents == format_list(input_list)
+
+def test_class_get_all_items():
+    meat_list = RandomList(["beef", "pork", "chicken"])
+    assert meat_list.get_all_items() == ["beef", "pork", "chicken"]
+

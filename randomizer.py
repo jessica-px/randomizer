@@ -98,6 +98,8 @@ class RandomList:
         Returns a random item from self.contents and decreases its probability by 1
     reset_contents():
         Returns contents to their original state
+    get_all_items():
+        Returns a list of all possible items in RandomList
 
     '''
 
@@ -152,3 +154,7 @@ class RandomList:
         '''
         self.contents = self._original_contents
         self._offset_contents = format_list_probabilities(self.contents)
+
+    def get_all_items(self):
+        return [item["item"] for item in self.contents]
+

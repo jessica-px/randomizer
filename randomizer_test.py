@@ -56,7 +56,7 @@ def test_deepcopy_list():
     assert new_list[0]["probability"] != test_list[0]["probability"]
 
 # ------------------------------------------------- #
-#                    Class Tests                    #
+#                   RandomList Tests                #
 # ------------------------------------------------- #
 
 input_list = [
@@ -65,7 +65,7 @@ input_list = [
     {"item": "strawberry", "probability": 2}
 ]
 
-def test_class_construction():
+def test_list_construction():
     random_list = RandomList(input_list)
     offset_list = [
         {"item": "strawberry", "probability": 2},
@@ -74,7 +74,7 @@ def test_class_construction():
     ]
     assert random_list._offset_contents == offset_list
 
-def test_class_adjust_probability():
+def test_list_adjust_probability():
     random_list = RandomList(input_list)
     random_list._adjust_probability("strawberry", -1)
     random_list._adjust_probability("vanilla", -1)
@@ -85,7 +85,7 @@ def test_class_adjust_probability():
     ]
     assert random_list._offset_contents == adjusted_list
 
-def test_class_get_random():
+def test_list_get_random():
     random_list = RandomList(input_list)
     random_item = random_list.get_random()
     possible_items = ["strawberry", "vanilla", "chocolate"]
@@ -94,7 +94,7 @@ def test_class_get_random():
         len(random_list.contents) == 3
     )
 
-def test_class_get_random_and_remove():
+def test_list_get_random_and_remove():
     random_list = RandomList(["strawberry", "vanilla", "chocolate"])
     random_item = random_list.get_random_and_remove()
     possible_items = ["strawberry", "vanilla", "chocolate"]
@@ -103,13 +103,13 @@ def test_class_get_random_and_remove():
         len(random_list.contents) == 2
     )
 
-def test_class_reset_contents():
+def test_list_reset_contents():
     random_list = RandomList(input_list)
     random_list.get_random_and_remove()
     random_list.reset_contents()
     assert random_list.contents == format_list(input_list)
 
-def test_class_get_all_items():
+def test_list_get_all_items():
     meat_list = RandomList(["beef", "pork", "chicken"])
     assert meat_list.get_all_items() == ["beef", "pork", "chicken"]
 

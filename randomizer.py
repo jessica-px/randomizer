@@ -156,6 +156,9 @@ class RandomList:
         self._offset_contents = format_list_probabilities(self.contents)
 
     def get_all_items(self):
+        '''
+        Returns a list of all possible items in RandomList
+        '''
         return [item["item"] for item in self.contents]
 
 class RandomGroup:
@@ -179,7 +182,8 @@ class RandomGroup:
     -------
     get_random():
         Randomly selects a RandomList from self.lists, then returns a random item from that list
-
+    get_all_lists():
+        For each list in self.lists, returns a list of its items
     '''
 
     def __init__(self, input_lists: t.List[t.Type[RandomList]]):
@@ -201,3 +205,9 @@ class RandomGroup:
         target_probability = self._get_random_probability()
         random_list = get_from_list(target_probability, self._offset_lists)["item"]
         return random_list.get_random()
+
+    def get_all_lists(self):
+        '''
+        For each list in self.lists, returns a list of its items
+        '''
+        return [random_list["item"].get_all_items() for random_list in self.lists]

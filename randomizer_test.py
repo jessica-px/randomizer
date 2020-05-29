@@ -125,3 +125,12 @@ def test_group_construction():
     random_item = random_group.get_random()
 
     assert random_item in meat_list.get_all_items() or random_item in veggie_list.get_all_items()
+
+def test_group_get_all_lists():
+    meat_list = RandomList(["beef", "pork", "chicken"])
+    veggie_list = RandomList(["carrot", "lettuce", "celery"])
+
+    random_group = RandomGroup([meat_list, veggie_list])
+    lists = random_group.get_all_lists()
+
+    assert lists == [["beef", "pork", "chicken"], ["carrot", "lettuce", "celery"]]

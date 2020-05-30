@@ -170,9 +170,9 @@ class RandomGroup:
     '''
 
     def __init__(self, input_lists: t.List[t.Type[RandomList]]):
-        self.lists = format_list(input_lists)
-        self._offset_lists = format_list_probabilities(self.lists)
-        self._original_lists = deepcopy_list(self.lists)
+        self._lists = format_list(input_lists)
+        self._offset_lists = format_list_probabilities(self._lists)
+        self._original_lists = deepcopy_list(self._lists)
 
     def _get_random_probability(self):
         range_max = self._offset_lists[-1]["probability"]
@@ -180,10 +180,10 @@ class RandomGroup:
 
     def get_random(self):
         '''
-        Selects a RandomList from self.lists, then returns a random item from its contents
+        Selects a RandomList from self._list, then returns a random item from its contents
         by calling the RandomList's own get_random() method
         '''
-        if len(self.lists) == 0:
+        if len(self._lists) == 0:
             raise IndexError('RandomGroup is empty!')
         target_probability = self._get_random_probability()
         random_list = get_from_list(target_probability, self._offset_lists)["item"]
@@ -191,6 +191,7 @@ class RandomGroup:
 
     def get_list_items(self):
         '''
-        For each list in self.lists, returns a list of its items
+        For each list in self._list, returns a list of its items
         '''
-        return [random_list["item"].get_items() for random_list in self.lists]
+        return [random_list["item"].get_items() for random_list in self._lists]
+

@@ -98,7 +98,7 @@ class RandomList:
         Returns a random item from self.contents and decreases its probability by 1
     reset_contents():
         Returns contents to their original state
-    get_all_items():
+    items():
         Returns a list of all possible items in RandomList
 
     '''
@@ -155,7 +155,7 @@ class RandomList:
         self.contents = self._original_contents
         self._offset_contents = format_list_probabilities(self.contents)
 
-    def get_all_items(self):
+    def items(self):
         '''
         Returns a list of all possible items in RandomList
         '''
@@ -210,4 +210,4 @@ class RandomGroup:
         '''
         For each list in self.lists, returns a list of its items
         '''
-        return [random_list["item"].get_all_items() for random_list in self.lists]
+        return [random_list["item"].items() for random_list in self.lists]

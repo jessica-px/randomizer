@@ -109,9 +109,9 @@ def test_list_reset_contents():
     random_list.reset_contents()
     assert random_list.contents == format_list(input_list)
 
-def test_list_get_all_items():
+def test_list_items():
     meat_list = RandomList(["beef", "pork", "chicken"])
-    assert meat_list.get_all_items() == ["beef", "pork", "chicken"]
+    assert meat_list.items() == ["beef", "pork", "chicken"]
 
 # ------------------------------------------------- #
 #                 RandomGroup Tests                 #
@@ -124,7 +124,7 @@ def test_group_construction():
     random_group = RandomGroup([meat_list, veggie_list])
     random_item = random_group.get_random()
 
-    assert random_item in meat_list.get_all_items() or random_item in veggie_list.get_all_items()
+    assert random_item in meat_list.items() or random_item in veggie_list.items()
 
 def test_group_get_all_lists():
     meat_list = RandomList(["beef", "pork", "chicken"])

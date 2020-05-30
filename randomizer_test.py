@@ -122,6 +122,10 @@ def test_list_get_contents():
     random_list = RandomList(contents)
     assert random_list.get_contents() == contents
 
+def test_list_item_count():
+    random_list = RandomList(input_list)
+    assert random_list.item_count() == 3
+
 # ------------------------------------------------- #
 #                 RandomGroup Tests                 #
 # ------------------------------------------------- #

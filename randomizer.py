@@ -102,6 +102,8 @@ class RandomList:
         Returns a list of all possible items in RandomList
     get_contents():
         Returns the full contents of the RandomList
+    item_count():
+        Returns the number of items in self._contents
     '''
 
     def __init__(self, input_list: t.List[t.Any]):
@@ -167,6 +169,12 @@ class RandomList:
         Returns the contents of the RandomList
         '''
         return self._contents
+
+    def item_count(self):
+        '''
+        Returns the number of items in self._contents
+        '''
+        return len(self._contents)
 
 class RandomGroup:
     '''

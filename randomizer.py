@@ -84,26 +84,6 @@ class RandomList:
 
     If given in any other format, items will be auto-formatted and provided
     a probability of 1.
-
-    Public Attributes
-    ----------
-    contents : List[t.Dict]
-        A list of items, with weighted probabilities (defaults to 1)
-
-    Public Methods
-    -------
-    get_random():
-        Returns a random item from self._contents
-    get_random_and_remove():
-        Returns a random item from self._contents and decreases its probability by 1
-    reset_contents():
-        Returns contents to their original state
-    get_items():
-        Returns a list of all possible items in RandomList
-    get_contents():
-        Returns the full contents of the RandomList
-    item_count():
-        Returns the number of items in self._contents
     '''
 
     def __init__(self, input_list: t.List[t.Any]):
@@ -187,18 +167,6 @@ class RandomGroup:
         }
 
     Otherwise the RandomLists will be auto-formatted and each given a probability of 1.
-
-    Public Attributes
-    ----------
-    lists : List[t.Dict]
-        A list of RandomLists, with weighted probabilities (defaults to 1)
-
-    Public Methods
-    -------
-    get_random():
-        Randomly selects a RandomList from self.lists, then returns a random item from that list
-    get_list_items():
-        For each list in self.lists, returns a list of its items
     '''
 
     def __init__(self, input_lists: t.List[t.Type[RandomList]]):

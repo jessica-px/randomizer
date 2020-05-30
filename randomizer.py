@@ -100,7 +100,8 @@ class RandomList:
         Returns contents to their original state
     get_items():
         Returns a list of all possible items in RandomList
-
+    get_contents():
+        Returns the full contents of the RandomList
     '''
 
     def __init__(self, input_list: t.List[t.Any]):
@@ -188,7 +189,7 @@ class RandomGroup:
     -------
     get_random():
         Randomly selects a RandomList from self.lists, then returns a random item from that list
-    get_all_lists():
+    get_list_items():
         For each list in self.lists, returns a list of its items
     '''
 
@@ -212,7 +213,7 @@ class RandomGroup:
         random_list = get_from_list(target_probability, self._offset_lists)["item"]
         return random_list.get_random()
 
-    def get_all_lists(self):
+    def get_list_items(self):
         '''
         For each list in self.lists, returns a list of its items
         '''

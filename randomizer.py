@@ -93,34 +93,34 @@ class RandomList:
     Public Methods
     -------
     get_random():
-        Returns a random item from self.contents
+        Returns a random item from self._contents
     get_random_and_remove():
-        Returns a random item from self.contents and decreases its probability by 1
+        Returns a random item from self._contents and decreases its probability by 1
     reset_contents():
         Returns contents to their original state
-    items():
+    get_items():
         Returns a list of all possible items in RandomList
 
     '''
 
     def __init__(self, input_list: t.List[t.Any]):
-        self.contents = format_list(deepcopy_list(input_list))
-        self._offset_contents = format_list_probabilities(self.contents)
-        self._original_contents = deepcopy_list(self.contents)
+        self._contents = format_list(deepcopy_list(input_list))
+        self._offset_contents = format_list_probabilities(self._contents)
+        self._original_contents = deepcopy_list(self._contents)
 
     def _get_item_index(self, input_item: t.Any):
-        for item in self.contents:
+        for item in self._contents:
             if item["item"] == input_item:
-                return self.contents.index(item)
+                return self._contents.index(item)
         raise IndexError(f'Could not find index of list item {input_item}.')
 
     def _adjust_probability(self, target_item: t.Dict, adjustment_amount: int):
         target_index = self._get_item_index(target_item)
-        self.contents[target_index]["probability"] += adjustment_amount
+        self._contents[target_index]["probability"] += adjustment_amount
         # Remove from list if prob becomes 0
-        if self.contents[target_index]["probability"] <= 0:
-            del self.contents[target_index]
-        self._offset_contents = format_list_probabilities(self.contents)
+        if self._contents[target_index]["probability"] <= 0:
+            del self._contents[target_index]
+        self._offset_contents = format_list_probabilities(self._contents)
 
     def _get_random_probability(self):
         range_max = self._offset_contents[-1]["probability"]
@@ -128,19 +128,19 @@ class RandomList:
 
     def get_random(self):
         '''
-        Returns a random item from self.contents
+        Returns a random item from self._contents
         '''
-        if len(self.contents) == 0:
+        if len(self._contents) == 0:
             raise IndexError('RandomList is empty!')
         target_probability = self._get_random_probability()
         return get_from_list(target_probability, self._offset_contents)["item"]
 
     def get_random_and_remove(self):
         '''
-        Returns a random item from self.contents and decreases its probability by 1
+        Returns a random item from self._contents and decreases its probability by 1
         If its probability reaches 0, it is removed from the list
         '''
-        if len(self.contents) == 0:
+        if len(self._contents) == 0:
             raise IndexError('RandomList is empty!')
         target_probability = self._get_random_probability()
         random_item = get_from_list(target_probability, self._offset_contents)["item"]
@@ -152,14 +152,20 @@ class RandomList:
         Returns contents to their original state, resetting all probability values
         and replacing any removed items
         '''
-        self.contents = self._original_contents
-        self._offset_contents = format_list_probabilities(self.contents)
+        self._contents = self._original_contents
+        self._offset_contents = format_list_probabilities(self._contents)
 
-    def items(self):
+    def get_items(self):
         '''
         Returns a list of all possible items in RandomList
         '''
-        return [item["item"] for item in self.contents]
+        return [item["item"] for item in self._contents]
+
+    def get_contents(self):
+        '''
+        Returns the contents of the RandomList
+        '''
+        return self._contents
 
 class RandomGroup:
     '''
@@ -210,4 +216,4 @@ class RandomGroup:
         '''
         For each list in self.lists, returns a list of its items
         '''
-        return [random_list["item"].items() for random_list in self.lists]
+        return [random_list["item"].get_items() for random_list in self.lists]

@@ -91,7 +91,7 @@ def test_list_get_random():
     possible_items = ["strawberry", "vanilla", "chocolate"]
     assert (
         random_item in possible_items and
-        len(random_list.contents) == 3
+        len(random_list._contents) == 3
     )
 
 def test_list_get_random_and_remove():
@@ -100,18 +100,27 @@ def test_list_get_random_and_remove():
     possible_items = ["strawberry", "vanilla", "chocolate"]
     assert (
         random_item in possible_items and
-        len(random_list.contents) == 2
+        len(random_list._contents) == 2
     )
 
 def test_list_reset_contents():
     random_list = RandomList(input_list)
     random_list.get_random_and_remove()
     random_list.reset_contents()
-    assert random_list.contents == format_list(input_list)
+    assert random_list._contents == format_list(input_list)
 
 def test_list_items():
     meat_list = RandomList(["beef", "pork", "chicken"])
-    assert meat_list.items() == ["beef", "pork", "chicken"]
+    assert meat_list.get_items() == ["beef", "pork", "chicken"]
+
+def test_list_get_contents():
+    contents = [
+        {"item": "strawberry", "probability": 1},
+        {"item": "vanilla", "probability": 1},
+        {"item": "chocolate", "probability": 1}
+    ]
+    random_list = RandomList(contents)
+    assert random_list.get_contents() == contents
 
 # ------------------------------------------------- #
 #                 RandomGroup Tests                 #
@@ -124,7 +133,7 @@ def test_group_construction():
     random_group = RandomGroup([meat_list, veggie_list])
     random_item = random_group.get_random()
 
-    assert random_item in meat_list.items() or random_item in veggie_list.items()
+    assert random_item in meat_list.get_items() or random_item in veggie_list.get_items()
 
 def test_group_get_all_lists():
     meat_list = RandomList(["beef", "pork", "chicken"])

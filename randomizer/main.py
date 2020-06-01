@@ -207,4 +207,3 @@ class RandomGroup:
             }
             for random_list in self._lists
         ]
-

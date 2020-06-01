@@ -180,7 +180,7 @@ class RandomGroup:
 
     def get_random(self):
         '''
-        Selects a RandomList from self._list, then returns a random item from its contents
+        Selects a RandomList from self._lists, then returns a random item from its contents
         by calling the RandomList's own get_random() method
         '''
         if len(self._lists) == 0:
@@ -191,7 +191,7 @@ class RandomGroup:
 
     def get_list_items(self):
         '''
-        For each list in self._list, returns a list of its items
+        For each list in self._lists, returns a list of its items
         '''
         return [random_list["item"].get_items() for random_list in self._lists]
 

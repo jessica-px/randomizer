@@ -195,3 +195,16 @@ class RandomGroup:
         '''
         return [random_list["item"].get_items() for random_list in self._lists]
 
+    def get_contents(self):
+        '''
+        For each list in self._lists, returns a full list of its contents, along with the
+        list's probability
+        '''
+        return [
+            {
+                "item": random_list["item"].get_contents(),
+                "probability": random_list["probability"]
+            }
+            for random_list in self._lists
+        ]
+

@@ -147,3 +147,28 @@ def test_group_get_list_items():
     lists = random_group.get_list_items()
 
     assert lists == [["beef", "pork", "chicken"], ["carrot", "lettuce", "celery"]]
+
+def test_group_get_contents():
+    meat_list = RandomList(["beef", "pork", "chicken"])
+    veggie_list = RandomList([{
+        "item": "carrot",
+        "probability": 4
+    }])
+
+    random_group = RandomGroup([meat_list, veggie_list])
+    contents = random_group.get_contents()
+
+    assert contents == [
+        {
+            "item": [
+                {"item": "beef", "probability": 1},
+                {"item": "pork", "probability": 1},
+                {"item": "chicken", "probability": 1}
+            ],
+            "probability": 1
+        },
+        {
+            "item": [{"item": "carrot", "probability": 4}],
+            "probability": 1
+        }
+    ]

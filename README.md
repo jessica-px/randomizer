@@ -1,6 +1,11 @@
 # Randomizer
+[![PyPI version](https://badge.fury.io/py/py-randomizer.svg)](https://badge.fury.io/py/py-randomizer)
 
 A small library that simplifies randomly selecting things from lists.
+
+### Install
+
+`python3 -m pip install py-randomizer`
 
 ## RandomList
 
